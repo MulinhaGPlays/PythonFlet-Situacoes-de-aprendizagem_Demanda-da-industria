@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\MulinhaGPlays\Documents\GitHub\Situacoes-de-aprendizagem_Demanda-da-industria\SAGA_SA_Demanda_Lunary_Sergipe_Cetafest\env"
+VIRTUAL_ENV="C:\Users\android\Documents\GitHub\Situacoes-de-aprendizagem_Demanda-da-industria\SAGA_SA_Demanda_Lunary_Sergipe_Cetafest\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
