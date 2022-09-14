@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\android\Documents\GitHub\Situacoes-de-aprendizagem_Demanda-da-industria\SAGA_SA_Demanda_Lunary_Sergipe_Cetafest\env
+set VIRTUAL_ENV=C:\Users\MulinhaGPlays\Documents\GitHub\Situacoes-de-aprendizagem_Demanda-da-industria\SAGA_SA_Demanda_Lunary_Sergipe_Cetafest\env
 
 if not defined PROMPT set PROMPT=$P$G
 
