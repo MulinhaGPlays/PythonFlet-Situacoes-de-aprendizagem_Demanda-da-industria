@@ -1,21 +1,5 @@
 import flet
-from flet import (Checkbox, Column, FloatingActionButton, IconButton, OutlinedButton, Page, Row, Tab, Tabs, Text, TextField, 
-UserControl, colors, icons,)
+from Controllers.LunaryController import main
 
-class TodoApp(UserControl):
-    def build(self):
-        return Column()
-
-
-def main(page: Page):
-    page.title = "Restaurante Lunary"
-    page.horizontal_alignment = "center"
-    page.scroll = "adaptive"
-    page.update()
-
-    app = TodoApp()
-
-    page.add(app)
-
-
-flet.app(target=main)
+if __name__ == "__main__":
+    flet.app(target=main, view=flet.WEB_BROWSER)
