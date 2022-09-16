@@ -3,6 +3,6 @@ from flet import View
 
 def Contato(page):
     page.title = "Contato"
-    page.views.append(View(route="/contato", controls=Style_AppBar(page),
+    page.views.append(View(route="/contato", controls=[Style_AppBar(page),]
                           )
                      )

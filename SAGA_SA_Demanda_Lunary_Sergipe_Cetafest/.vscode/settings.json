@@ -1,0 +1,5 @@
+{
+    "dataworkspace.excludedProjects": [
+        "RestauranteLunary/Models/RestauranteLunary/RestauranteLunary.sqlproj"
+    ]
+}

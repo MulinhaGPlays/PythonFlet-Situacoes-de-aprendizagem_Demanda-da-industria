@@ -1,42 +1,33 @@
 import flet
-from flet import AppBar, ElevatedButton, Page, Text, View, colors
+from flet import Image, Page, Row, border_radius
 
 def main(page: Page):
-    page.title = "Routes Example"
+    page.title = "Images Example"
+    page.theme_mode = "light"
+    page.padding = 50
+    page.update()
 
-    def route_change(route):
-        page.views.clear()
-        page.views.append(
-            View(
-                "/",
-                [
-                    AppBar(title=Text("Flet app"), bgcolor=colors.SURFACE_VARIANT),
-                    ElevatedButton("Visit Store", on_click=lambda _: page.go("/store")),
-                ],
+    img = Image(
+        src=f"/icons/icon-512.png",
+        width=100,
+        height=100,
+        fit="contain",
+    )
+    images = Row(expand=1, wrap=False, scroll="always")
+
+    page.add(img, images)
+
+    for i in range(0, 30):
+        images.controls.append(
+            Image(
+                src=f"https://picsum.photos/200/200?{i}",
+                width=200,
+                height=200,
+                fit="none",
+                repeat="noRepeat",
+                border_radius=border_radius.all(10),
             )
         )
-        if page.route == "/store":
-            page.views.append(
-                View(
-                    "/store",
-                    [
-                        AppBar(title=Text("Store"), bgcolor=colors.SURFACE_VARIANT),
-                        ElevatedButton("Go Home", on_click=lambda _: page.go("/")),
-                    ],
-                )
-            )
-        page.update()
+    page.update()
 
-    def view_pop(view):
-        page.views.pop()
-        top_view = page.views[-1]
-        page.go(top_view.route)
-
-    page.on_route_change = route_change
-    page.on_view_pop = view_pop
-    page.go(page.route)
-
-
-flet.app(target=main, view=flet.WEB_BROWSER)
-
-
+flet.app(target=main)

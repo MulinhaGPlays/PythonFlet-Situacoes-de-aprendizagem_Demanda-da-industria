@@ -24,4 +24,5 @@ def main(page: Page):
         page.update()
 
     page.on_route_change = route
+    page.scroll = "adaptive"
     page.go(page.route)
