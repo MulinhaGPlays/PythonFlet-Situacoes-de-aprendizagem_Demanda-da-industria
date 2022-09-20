@@ -1,4 +1,4 @@
-#!C:\Users\MulinhaGPlays\Documents\GitHub\Situacoes-de-aprendizagem_Demanda-da-industria\SAGA_SA_Demanda_Lunary_Sergipe_Cetafest\env\Scripts\python.exe
+#!C:\Users\MulinhaGPlays\Documents\GitHub\Situacoes-de-aprendizagem_Demanda-da-industria\SAGA_SA_Demanda_Lunary_Sergipe_Cetafest\env\scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'qrcode==7.3.1','console_scripts','qr'
 import re
 import sys

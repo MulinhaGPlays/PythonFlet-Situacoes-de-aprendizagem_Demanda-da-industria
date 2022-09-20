@@ -1,4 +1,4 @@
-from Views.Pages import Default, Home, Cardapio, Contato, Sobre, Erro404, Login
+from Views.Pages import Default, Home, Cardapio, Contato, Sobre, Erro404, Login, Registrar
 class View:
     def __init__(self, page):
         self.page = page
@@ -14,5 +14,7 @@ class View:
         Sobre.Sobre(self.page)
     def Login(self):
         Login.Login(self.page)
+    def Registrar(self):
+        Registrar.Registrar(self.page)
     def Erro404(self):
         Erro404.Erro404(self.page)

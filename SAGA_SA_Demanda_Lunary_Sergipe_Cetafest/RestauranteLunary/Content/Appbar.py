@@ -2,9 +2,17 @@ from flet import (AppBar, ElevatedButton, Text, colors, Row,
                   PopupMenuButton, PopupMenuItem, TextField, 
                   Column, TextButton, Divider)
 from Views.RouteConfig import RouteConfig
-from Scripts.Autenticacao import Autenticar
+from Scripts.Autenticacao import Autenticacao, Registro
 
 def Style_AppBar(page):
+    AreaUsuario = TextField(hint_text="Usuário",
+                            width=200)
+    AreaSenha = TextField(hint_text="Senha",
+                          width=200)
+    def Autenticar(e):
+        Autenticacao(Usuario=AreaUsuario.value, Senha=AreaSenha.value)
+    def Registrar(e):
+        Registro(Usuario=AreaUsuario.value, Senha=AreaSenha.value, IdRestaurante=1, CodFuncionario="a001")
     return AppBar(bgcolor=colors.SURFACE_VARIANT,
                   title=Row([TextButton(text="Inicio", 
                                         on_click=RouteConfig(page=page, route="/home"),
@@ -26,13 +34,9 @@ def Style_AppBar(page):
                                                                                               size=10),
                                                                                          Divider(height=5),
                                                                                          Text("Usuário:"),
-                                                                                         TextField(hint_text="Usuário",
-                                                                                                   width=200),
+                                                                                         AreaUsuario,
                                                                                          Text("Senha:"),
-                                                                                         TextField(hint_text="Senha",
-                                                                                                   width=200),
-                                                                                         ElevatedButton(text="Logar", 
-                                                                                                        on_click=Autenticar()),]))])
-                           ]
-                  )
+                                                                                         AreaSenha,
+                                                                                         Row(controls=[ElevatedButton(text="Logar", on_click=Autenticar), 
+                                                                                                       ElevatedButton(text="Registrar", on_click=RouteConfig(page=page, route="/registrar")),])]))])])
            
