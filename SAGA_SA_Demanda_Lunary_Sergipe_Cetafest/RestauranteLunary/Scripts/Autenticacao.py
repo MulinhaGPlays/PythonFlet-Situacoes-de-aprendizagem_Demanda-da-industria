@@ -7,7 +7,8 @@ def Autenticacao(Usuario, Senha):
     for row in rows:
         if row.Usuario == Usuario:
             if row.Senha == Senha:
-                print("Logado com sucesso!")
+                print('Login efetuado')
+                # db.UPDATE(TABLE='SessaoDoDispositivo' COLUMN='Autenticado', VALUES='1', COLUMNCond='CodSessao', Operator='=', Condition=page.session_id)
                 
 def Registro(Usuario, Senha, IdRestaurante, CodFuncionario):
     db.SELECT(COLUMN=['Id', 'CodFuncionario'], TABLE=['RedeRestaurantes', 'Funcionario'])
