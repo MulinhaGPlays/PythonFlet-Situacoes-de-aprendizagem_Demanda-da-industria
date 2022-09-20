@@ -101,4 +101,4 @@ INSERT INTO Cardapio (Nome, Descricao, Preco, Categoria, VezesConsumo)
 --UPDATE Cardapio SET VezesConsumo = 7 WHERE Id = 5;
 --UPDATE Cardapio SET Promocional = 0 WHERE Id = 2;
 --SELECT * FROM Cardapio ORDER BY VezesConsumo DESC;
---DROP TABLE Cardapio;
+--DROP TABLE Cardapio; 
