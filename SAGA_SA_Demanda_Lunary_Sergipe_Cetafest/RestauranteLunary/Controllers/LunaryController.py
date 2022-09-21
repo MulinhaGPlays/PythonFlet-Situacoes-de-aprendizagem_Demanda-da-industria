@@ -28,7 +28,8 @@ def main(page: Page):
         page.update()
 
     page.on_route_change = route
-    db.INSERT_INTO(TABLE='SessaoDoDispositivo', COLUMN='CodSessao', VALUES=f"'{page.session_id}'")
-    page.scroll = "adaptive"
+    db.SELECT_WHERE(TABLE='SessaoDoDispositivo', COLUMN='CodSessao', COLUMNCond='CodSessao', Operator='=', Condition=f'{page.session_id}')
+    if db.FETCHALL() == []:
+        db.INSERT_INTO(TABLE='SessaoDoDispositivo', COLUMN='CodSessao', VALUES=f"'{page.session_id}'")
     page.go(page.route)
     

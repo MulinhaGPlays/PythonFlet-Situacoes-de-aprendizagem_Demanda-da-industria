@@ -1,3 +1,4 @@
+from calendar import c
 from flet.ref import Ref
 from flet import (Row, Image, Text, Container, colors, Column, IconButton, 
                   ElevatedButton, Dropdown, dropdown, PopupMenuButton, PopupMenuItem, 
@@ -47,8 +48,24 @@ def filtro(page):
     def adicionar(Nome, Preco):
         if vazio in carrinho.controls:
             carrinho.controls.clear()
-        def remover(index):
-            carrinho.controls.pop(index-1)
+        indice = Text(f'{len(carrinho.controls)+1} -') #atualizar com a alteração da quantidade
+        def RemoveProd(Id):
+            return IconButton(icon=icons.REMOVE_CIRCLE_OUTLINE, 
+                              icon_color=colors.RED, 
+                              on_click=lambda _: remover(Id),)
+        def remover(Id): # s-o seguir a lógica
+            i = -1
+            variacao = Id - len(carrinho.controls)
+            print(variacao)
+            print(variacao - Id)
+            for prod in carrinho.controls:
+                i += 1
+                if variacao == 0:
+                    carrinho.controls.remove(prod)
+                    break
+                elif variacao - Id == 0:
+                    carrinho.controls.remove(prod)
+                    break
             if carrinho.controls == []:
                 carrinho.controls.append(vazio)
             page.update()
@@ -61,14 +78,10 @@ def filtro(page):
                 alignment=alignment.center,
                 content=Row(
                     controls=[
-                        Text(len(carrinho.controls)+1),
+                        indice,
                         Text(Nome),
                         Text(f'R${Preco}'),
-                        IconButton(
-                            icon=icons.REMOVE_CIRCLE_OUTLINE,
-                            icon_color=colors.RED,
-                            on_click=lambda _: remover(len(carrinho.controls)),
-                        )
+                        RemoveProd(len(carrinho.controls))
                     ]
                 )
             )
@@ -76,6 +89,8 @@ def filtro(page):
         page.update()
     def produtos():
         produto.controls.clear()
+        def addcart(Nome, Preco):
+            return IconButton(icon=icons.ADD_SHOPPING_CART_SHARP, on_click=lambda _: adicionar(Nome, Preco))
         for row in db.FETCHALL():
             produto.controls.append(
                 Container(
@@ -109,10 +124,7 @@ def filtro(page):
                                     Text(
                                         value=f'R${row.Preco}'
                                         ),
-                                    IconButton(
-                                        icon=icons.ADD_SHOPPING_CART,
-                                        on_click=lambda _: adicionar(row.Nome, row.Preco),
-                                        ),
+                                    addcart(row.Nome, row.Preco),
                                 ]
                             ),
                         ]
