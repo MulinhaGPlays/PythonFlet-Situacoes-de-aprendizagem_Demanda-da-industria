@@ -53,19 +53,8 @@ def filtro(page):
             return IconButton(icon=icons.REMOVE_CIRCLE_OUTLINE, 
                               icon_color=colors.RED, 
                               on_click=lambda _: remover(Id),)
-        def remover(Id): # s-o seguir a lógica
-            i = -1
-            variacao = Id - len(carrinho.controls)
-            print(variacao)
-            print(variacao - Id)
-            for prod in carrinho.controls:
-                i += 1
-                if variacao == 0:
-                    carrinho.controls.remove(prod)
-                    break
-                elif variacao - Id == 0:
-                    carrinho.controls.remove(prod)
-                    break
+        def remover(Id):
+            carrinho.controls.pop(0)
             if carrinho.controls == []:
                 carrinho.controls.append(vazio)
             page.update()

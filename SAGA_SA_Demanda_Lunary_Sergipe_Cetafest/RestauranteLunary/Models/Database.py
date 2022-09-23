@@ -18,7 +18,10 @@ class Database:
                TABLE: Optional[List] | str = None):
         COLUMN = ', '.join(COLUMN) if type(COLUMN) is list else COLUMN
         TABLE = ', '.join(TABLE) if type(TABLE) is list else TABLE
-        return RL.execute(f"SELECT {COLUMN} FROM {TABLE}")
+        try:
+            RL.execute(f"SELECT {COLUMN} FROM {TABLE}")
+        except:
+            pass
     
     def INSERT_INTO(TABLE: Optional[List] | str = None,
                     COLUMN: Optional[List] | str = None,
