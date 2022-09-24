@@ -52,6 +52,7 @@ def main(page: Page):
         upload_button.current.disabled = True
         upload_button.current.update()
         uf = []
+        print(file_picker.result)
         if file_picker.result != None and file_picker.result.files != None:
             for f in file_picker.result.files:
                 uf.append(

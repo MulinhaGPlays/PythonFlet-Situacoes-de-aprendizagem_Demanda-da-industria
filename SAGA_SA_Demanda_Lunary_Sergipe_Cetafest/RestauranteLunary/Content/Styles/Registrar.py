@@ -7,10 +7,10 @@ import base64
 
 class build(UserControl):
     def build(self):
-        return self.RegistroArea()
+        return self.RegistroArea(self.page)
     
-    def RegistroArea(self):
-        with open(f"RestauranteLunary\Logo.png", "rb") as noB64:         
+    def RegistroArea(self, page):
+        with open(f"Logo.png", "rb") as noB64:         
             Logo = base64.b64encode(noB64.read()).decode()
         AreaUsuario = TextField(hint_text="Usuário",
                                 width=200)
@@ -35,6 +35,7 @@ class build(UserControl):
                 Senha=AreaSenha.value,
                 IdRestaurante=len(AreaRestaurante.options),
                 CodFuncionario=AreaCodFunc.value,
+                page=page
                 )
         return Container(padding=10,
                          alignment=alignment.center,

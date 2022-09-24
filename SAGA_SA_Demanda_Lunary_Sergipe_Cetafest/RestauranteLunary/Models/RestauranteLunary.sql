@@ -59,8 +59,6 @@ CREATE TABLE SessaoDoDispositivo (
 	CodSessao varchar(36) primary key,
 	Autenticado int default 0,
 	)
-INSERT INTO SessaoDoDispositivo(CodSessao) 
-	VALUES ('1a7be732-95fe-48df-a630-273d59daeeb7');
 DELETE SessaoDoDispositivo
 
 --SELECT * FROM SessaoDoDispositivo;
@@ -99,6 +97,6 @@ INSERT INTO Cardapio (Nome, Descricao, Preco, Categoria, VezesConsumo)
 --SELECT * FROM Cardapio;
 --SELECT * FROM Cardapio WHERE Categoria = 'Bebida'
 --UPDATE Cardapio SET VezesConsumo = 7 WHERE Id = 5;
---UPDATE Cardapio SET Promocional = 0 WHERE Id = 2;
+--UPDATE Cardapio SET Promocional = 1 WHERE Id = 2;
 --SELECT * FROM Cardapio ORDER BY VezesConsumo DESC;
 --DROP TABLE Cardapio; 

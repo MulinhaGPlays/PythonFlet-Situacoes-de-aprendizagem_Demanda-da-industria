@@ -1,14 +1,53 @@
-from calendar import c
+import time
 from flet.ref import Ref
 from flet import (Row, Image, Text, Container, colors, Column, IconButton, 
                   ElevatedButton, Dropdown, dropdown, PopupMenuButton, PopupMenuItem, 
-                  Icon, icons, padding, alignment, Alignment, FilePicker, FilePickerResultEvent)
+                  Icon, icons, padding, alignment, Alignment, FilePicker, FilePickerResultEvent,
+                  FilePickerUploadEvent, FilePickerUploadFile)
 from Models.Database import Database as db
 import base64
+import os
 
 def filtro(page):
+    def file_picker_result(e: FilePickerResultEvent):
+        PATH = f"cache"
+        if e.files != None:
+            uf = []
+            for f in file_picker.result.files:
+                uf.append(
+                    FilePickerUploadFile(
+                        f.name,
+                        upload_url=page.get_upload_url(f.name, 600),
+                    )
+                )
+            file_picker.upload(uf)
+            name = list(map(lambda f: f.name, uf))[0]
+            print(f'{name} foi adicionado ao item de Id: {i_d}')
+            while os.listdir(PATH) == []:
+                time.sleep(0.01)
+            with open(f"{PATH}/{name}", "rb") as noB64:         
+                img = base64.b64encode(noB64.read()).decode()
+            while os.listdir(PATH) != []:
+                try:
+                    os.remove(f"{PATH}/{name}")
+                except:
+                    pass
+            db.UPDATE(TABLE='Cardapio',
+                    COLUMN='Imagem',
+                    VALUES=img,
+                    COLUMNCond='Id',
+                    Operator='=',
+                    Condition=i_d)
+            time.sleep(10)
+            db.SELECT(COLUMN='*', TABLE='Cardapio')
+            produtos()
+    def on_upload_progress(e: FilePickerUploadEvent):
+        pass
     produto = Row(controls=[], scroll='always',)
-    disableBimg = True
+    disableBimg = False
+    file_picker = FilePicker(on_result=file_picker_result, on_upload=on_upload_progress)
+    page.overlay.append(file_picker)
+    page.update()
     db.SELECT(COLUMN='*', TABLE='Cardapio')
     def filtrar(e):
         match dd.value:
@@ -76,10 +115,33 @@ def filtro(page):
             )
         )
         page.update()
+    def addImage(Id):
+        global i_d
+        i_d = Id
+        file_picker.pick_files(
+            dialog_title="Insira a imagem ao item do cardápio",
+            file_type="image",
+            allow_multiple=False,
+                               )
     def produtos():
         produto.controls.clear()
         def addcart(Nome, Preco):
             return IconButton(icon=icons.ADD_SHOPPING_CART_SHARP, on_click=lambda _: adicionar(Nome, Preco))
+        def imgUpd(Id, Imagem):
+            return IconButton(
+                bgcolor=colors.WHITE,
+                width=250,
+                height=250,
+                disabled=disableBimg,
+                on_click=lambda _: addImage(Id),
+                content=Image(
+                    src_base64=Imagem,
+                    fit='cover',
+                    width=220,
+                    height=220,
+                    border_radius= 10,
+                )
+            )
         for row in db.FETCHALL():
             produto.controls.append(
                 Container(
@@ -92,16 +154,7 @@ def filtro(page):
                     content=Column(
                         horizontal_alignment="center",
                         controls=[
-                            IconButton(
-                                disabled=disableBimg,
-                                on_click=lambda _: print(1),
-                                content=Image(
-                                    src_base64=row.Imagem,
-                                    fit='cover',
-                                    width=255,
-                                    border_radius= 10,
-                                ),
-                            ),
+                            imgUpd(row.Id, row.Imagem),
                             Text(
                                 value=row.Nome
                                 ),
@@ -120,6 +173,7 @@ def filtro(page):
                         ),
                     ),
                 )
+        page.update()
     produtos()
     dd = Dropdown(
         hint_text='Filtrar Categoria',
@@ -156,4 +210,6 @@ def filtro(page):
         on_click=btnPdoDia
     )
     carrinho.controls.append(vazio)
-    return Column(controls=[Row(controls=[dd, btnTodos, btnMConsumidos, btnPdoDia]), Row(controls=[icone, carrinho]), produto])
+    return Column(
+        controls=[Row(controls=[dd, btnTodos, btnMConsumidos, btnPdoDia]), Row(controls=[icone, carrinho]), produto],
+        )

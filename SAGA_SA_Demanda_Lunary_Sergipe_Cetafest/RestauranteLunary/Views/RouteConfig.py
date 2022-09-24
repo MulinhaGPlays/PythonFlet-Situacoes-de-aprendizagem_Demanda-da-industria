@@ -1,2 +1,2 @@
 def RouteConfig(page, route):
-        return lambda _: page.go(route)
+        return page.go(route)

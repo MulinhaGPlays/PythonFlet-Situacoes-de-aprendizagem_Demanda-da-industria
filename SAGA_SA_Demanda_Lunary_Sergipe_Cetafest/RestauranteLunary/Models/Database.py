@@ -59,7 +59,7 @@ class Database:
                COLUMNCond: Optional[List] | str = '*',
                Operator: str = '=',
                Condition = 'NULL'):
-        return RL.execute(f"UPDATE {TABLE} SET {COLUMN} = {VALUES} WHERE {COLUMNCond} {Operator} '{Condition}'")
+        return RL.execute(f"UPDATE {TABLE} SET {COLUMN} = '{VALUES}' WHERE {COLUMNCond} {Operator} '{Condition}'")
     
     
     def FETCHALL():return RL.fetchall()

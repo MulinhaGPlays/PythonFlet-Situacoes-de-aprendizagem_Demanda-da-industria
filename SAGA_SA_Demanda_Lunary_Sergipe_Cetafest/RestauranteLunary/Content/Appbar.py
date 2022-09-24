@@ -2,7 +2,7 @@ from flet import (AppBar, ElevatedButton, Text, colors, Row,
                   PopupMenuButton, PopupMenuItem, TextField, 
                   Column, TextButton, Divider)
 from Views.RouteConfig import RouteConfig
-from Scripts.Autenticacao import Autenticacao, Registro
+from Scripts.Autenticacao import Autenticacao
 
 def Style_AppBar(page):
     AreaUsuario = TextField(hint_text="Usuário",
@@ -10,23 +10,21 @@ def Style_AppBar(page):
     AreaSenha = TextField(hint_text="Senha",
                           width=200)
     def Autenticar(e):
-        Autenticacao(Usuario=AreaUsuario.value, Senha=AreaSenha.value)
-    def Registrar(e):
-        Registro(Usuario=AreaUsuario.value, Senha=AreaSenha.value, IdRestaurante=1, CodFuncionario="a001")
+        Autenticacao(Usuario=AreaUsuario.value, Senha=AreaSenha.value, page=page)
     return AppBar(bgcolor=colors.SURFACE_VARIANT,
                   title=Row([TextButton(text="Inicio", 
-                                        on_click=RouteConfig(page=page, route="/home"),
+                                        on_click=lambda _: RouteConfig(page=page, route="/home"),
                                         ),
                              TextButton(text="Cardapio", 
-                                        on_click=RouteConfig(page=page, route="/cardapio"),
+                                        on_click=lambda _: RouteConfig(page=page, route="/cardapio"),
                                         ),
                              TextButton(text="Contato", 
-                                        on_click=RouteConfig(page=page, route="/contato"),
+                                        on_click=lambda _: RouteConfig(page=page, route="/contato"),
                                         ),
                              TextButton(text="Sobre",
-                                        on_click=RouteConfig(page=page, route="/sobre"),
+                                        on_click= lambda _:RouteConfig(page=page, route="/sobre"),
                                         ),]),
-                  actions=[PopupMenuButton(items=[PopupMenuItem(on_click=RouteConfig(page=page, 
+                  actions=[PopupMenuButton(items=[PopupMenuItem(on_click=lambda _: RouteConfig(page=page, 
                                                                                      route="/login"),
                                                                 content=Column(width=200,
                                                                                alignment="center",
@@ -38,5 +36,5 @@ def Style_AppBar(page):
                                                                                          Text("Senha:"),
                                                                                          AreaSenha,
                                                                                          Row(controls=[ElevatedButton(text="Logar", on_click=Autenticar), 
-                                                                                                       ElevatedButton(text="Registrar", on_click=RouteConfig(page=page, route="/registrar")),])]))])])
+                                                                                                       ElevatedButton(text="Registrar", on_click=lambda _: RouteConfig(page=page, route="/registrar")),])]))])])
            
