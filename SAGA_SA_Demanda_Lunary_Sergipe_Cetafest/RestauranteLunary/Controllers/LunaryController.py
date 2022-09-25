@@ -1,4 +1,8 @@
+from Scripts.PythonDB import CreateDataBase
+CreateDataBase('MemoryCard')
 from Models.Database import Database as db
+from Scripts.PythonDB import CreateTable
+from Models.UserLocalStorage import MemoryCard
 from Views.View import View
 from flet import Page
 
@@ -7,6 +11,7 @@ db.DELETE(TABLE='SessaoDoDispositivo')
 def main(page: Page):
     
     def route(route):
+        CreateTable(page.session_id)
         db.SELECT_WHERE(TABLE='SessaoDoDispositivo', 
                         COLUMN='Autenticado', 
                         COLUMNCond='CodSessao', Operator='=', Condition=page.session_id)
@@ -35,7 +40,6 @@ def main(page: Page):
         page.update()
 
     page.on_route_change = route
-    print(page.session_id)
     db.SELECT_WHERE(TABLE='SessaoDoDispositivo', COLUMN='CodSessao', COLUMNCond='CodSessao', Operator='=', Condition=f'{page.session_id}')
     if db.FETCHALL() == []:
         db.INSERT_INTO(TABLE='SessaoDoDispositivo', COLUMN='CodSessao', VALUES=f"'{page.session_id}'")

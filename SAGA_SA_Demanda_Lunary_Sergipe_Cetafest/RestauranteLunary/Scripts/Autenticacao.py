@@ -8,7 +8,10 @@ def Autenticacao(Usuario, Senha, page):
         if row.Usuario == Usuario:
             if row.Senha == Senha:
                 db.UPDATE(TABLE='SessaoDoDispositivo', COLUMN='Autenticado', VALUES='1', COLUMNCond='CodSessao', Operator='=', Condition=page.session_id)
-                RouteConfig(page=page, route="/home")
+                if page.route == '/login':
+                    RouteConfig(page=page, route="/home")
+                else:
+                    page.update()
                 
 def Registro(Usuario, Senha, IdRestaurante, CodFuncionario, page):
     db.SELECT(COLUMN=['Id', 'CodFuncionario'], TABLE=['RedeRestaurantes', 'Funcionario'])
@@ -18,4 +21,7 @@ def Registro(Usuario, Senha, IdRestaurante, CodFuncionario, page):
             if row.CodFuncionario == CodFuncionario:
                 db.INSERT_INTO(COLUMN=['Usuario', 'Senha', 'IdRestaurante', 'CodFuncionario'], TABLE='UsuarioLunary', VALUES=[f"'{Usuario}'", f"'{Senha}'", f"'{IdRestaurante}'", f"'{CodFuncionario}'"])
                 db.UPDATE(TABLE='SessaoDoDispositivo', COLUMN='Autenticado', VALUES='1', COLUMNCond='CodSessao', Operator='=', Condition=page.session_id)
-                RouteConfig(page=page, route="/home")
+                if page.route == '/registrar':
+                    RouteConfig(page=page, route="/home")
+                else:
+                    page.update()
