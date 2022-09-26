@@ -97,4 +97,3 @@ def Style_AppBar(page, auth):
             ),
         actions=[login]
         )
-           

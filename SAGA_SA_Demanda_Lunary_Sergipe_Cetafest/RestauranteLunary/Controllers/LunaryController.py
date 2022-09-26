@@ -1,8 +1,6 @@
-from Scripts.PythonDB import CreateDataBase
-CreateDataBase('MemoryCard')
+from Scripts.PythonDB import PythonDB
+PythonDB('MemoryCard').CreateDataBase()
 from Models.Database import Database as db
-from Scripts.PythonDB import CreateTable
-from Models.UserLocalStorage import MemoryCard
 from Views.View import View
 from flet import Page
 
@@ -11,7 +9,7 @@ db.DELETE(TABLE='SessaoDoDispositivo')
 def main(page: Page):
     
     def route(route):
-        CreateTable(page.session_id)
+        PythonDB('MemoryCard').CreateTable(page.session_id)
         db.SELECT_WHERE(TABLE='SessaoDoDispositivo', 
                         COLUMN='Autenticado', 
                         COLUMNCond='CodSessao', Operator='=', Condition=page.session_id)
