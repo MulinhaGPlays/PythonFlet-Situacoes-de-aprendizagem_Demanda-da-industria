@@ -6,8 +6,9 @@ def Cardapio(page, auth):
     page.title = "Cardapio"
     page.views.append(
         View(
-            scroll='always',
             route="/cardapio", 
+            padding=0,
+            scroll='always',
             controls=[
                 Style_AppBar(page, auth), 
                 filtro(page),

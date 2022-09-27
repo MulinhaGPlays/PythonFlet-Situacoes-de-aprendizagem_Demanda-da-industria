@@ -3,10 +3,14 @@ from flet.ref import Ref
 from flet import (Row, Image, Text, Container, colors, Column, IconButton, 
                   ElevatedButton, Dropdown, dropdown, PopupMenuButton, PopupMenuItem, 
                   Icon, icons, padding, alignment, Alignment, FilePicker, FilePickerResultEvent,
-                  FilePickerUploadEvent, FilePickerUploadFile)
+                  FilePickerUploadEvent, FilePickerUploadFile, border_radius, margin,
+                  Stack)
 from Models.Database import Database as db
 import base64
 import os
+
+with open(f"Content/Imgs/Add_Img.png", "rb") as AddImg:
+    AddImg = base64.b64encode(AddImg.read()).decode()
 
 def filtro(page):
     def file_picker_result(e: FilePickerResultEvent):
@@ -25,22 +29,22 @@ def filtro(page):
             print(f'{name} foi adicionado ao item de Id: {i_d}')
             while os.listdir(PATH) == []:
                 time.sleep(0.01)
-            with open(f"{PATH}/{name}", "rb") as noB64:         
-                img = base64.b64encode(noB64.read()).decode()
+            with open(f"{PATH}/{name}", "rb") as img:
+                db.UPDATE(TABLE='Cardapio',
+                          COLUMN='Imagem',
+                          VALUES=f"CONVERT(VARBINARY(MAX), '{base64.b64encode(img.read()).decode()}')",
+                          COLUMNCond='Id',
+                          Operator='=',
+                          Condition=i_d)
             while os.listdir(PATH) != []:
                 try:
                     os.remove(f"{PATH}/{name}")
                 except:
-                    pass
-            db.UPDATE(TABLE='Cardapio',
-                    COLUMN='Imagem',
-                    VALUES=img,
-                    COLUMNCond='Id',
-                    Operator='=',
-                    Condition=i_d)
-            time.sleep(10)
+                    print('erro')
             db.SELECT(COLUMN='*', TABLE='Cardapio')
             produtos()
+            
+                    
     def on_upload_progress(e: FilePickerUploadEvent):
         pass
     produto = Row(controls=[], scroll='always',)
@@ -128,8 +132,20 @@ def filtro(page):
         def addcart(Nome, Preco):
             return IconButton(icon=icons.ADD_SHOPPING_CART_SHARP, on_click=lambda _: adicionar(Nome, Preco))
         def imgUpd(Id, Imagem):
+            if Imagem != None:
+                Imagem = base64.decodebytes(Imagem)
+                Imagem = base64.b64encode(Imagem).decode()
+                size = 250
+                radius = size*0.5
+            else:
+                Imagem = AddImg
+                size = 150
+                radius = 0
             return IconButton(
                 bgcolor=colors.WHITE,
+                bottom=10,
+                left=10,
+                right=10,
                 width=250,
                 height=250,
                 disabled=disableBimg,
@@ -137,9 +153,9 @@ def filtro(page):
                 content=Image(
                     src_base64=Imagem,
                     fit='cover',
-                    width=220,
-                    height=220,
-                    border_radius= 10,
+                    width=size,
+                    height=size,
+                    border_radius= radius,
                 )
             )
         for row in db.FETCHALL():
@@ -150,25 +166,33 @@ def filtro(page):
                     padding=5,
                     margin=5,
                     bgcolor=colors.DEEP_ORANGE_400,
-                    border_radius= 10,
-                    content=Column(
-                        horizontal_alignment="center",
+                    border_radius=border_radius.BorderRadius(10, 10, 275*0.5, 275*0.5),
+                    content=Stack(
                         controls=[
-                            imgUpd(row.Id, row.Imagem),
-                            Text(
-                                value=row.Nome
-                                ),
-                            Text(
-                                value=row.Descricao
-                                ),
-                            Row(
+                            Column(
+                                top=10,
+                                left=10,
+                                right=10,
+                                horizontal_alignment="center",
                                 controls=[
                                     Text(
-                                        value=f'R${row.Preco}'
+                                        value=row.Nome,
+                                        size=18,
+                                        text_align="center",
+                                        weight="bold",
                                         ),
-                                    addcart(row.Nome, row.Preco),
-                                ]
-                            ),
+                                    Text(value=row.Descricao),
+                                    Row(
+                                        controls=[
+                                            Text(
+                                                value=f'R${row.Preco}'
+                                                ),
+                                            addcart(row.Nome, row.Preco),
+                                            ]
+                                        ),
+                                    ]
+                                ),
+                            imgUpd(row.Id, row.Imagem),
                         ]
                         ),
                     ),
@@ -211,5 +235,27 @@ def filtro(page):
     )
     carrinho.controls.append(vazio)
     return Column(
-        controls=[Row(controls=[dd, btnTodos, btnMConsumidos, btnPdoDia]), Row(controls=[icone, carrinho]), produto],
+        controls=[
+            Container(
+                margin=margin.Margin(10,10,0,0),
+                content=Row(
+                    controls=[
+                        dd, 
+                        btnTodos,
+                        btnMConsumidos,
+                        btnPdoDia,
+                        ]
+                    )
+                ),
+            Container(
+                margin=margin.Margin(10,10,0,0),
+                content=Row(
+                    controls=[
+                        icone,
+                        carrinho
+                        ]
+                    )
+                ),
+            produto
+            ],
         )

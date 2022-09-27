@@ -42,4 +42,3 @@ def main(page: Page):
     if db.FETCHALL() == []:
         db.INSERT_INTO(TABLE='SessaoDoDispositivo', COLUMN='CodSessao', VALUES=f"'{page.session_id}'")
     page.go(page.route)
-    
