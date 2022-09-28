@@ -1,10 +1,15 @@
 from flet import (
-    AppBar, ElevatedButton, Text, colors, Row, 
+    AppBar, ElevatedButton, Text, Row, 
     PopupMenuButton, PopupMenuItem, TextField, 
-    Column, TextButton, Divider, icons
-    )
+    Column, TextButton, Divider, icons, IconButton,
+    Image)
+import base64
+from Content.Colors import (Background, TextColor)
 from Views.RouteConfig import RouteConfig
 from Scripts.Autenticacao import Autenticacao, Deslogar
+
+with open(f"Logo.png", "rb") as noB64:         
+    Logo = base64.b64encode(noB64.read()).decode()
 
 def Style_AppBar(page, auth):
     AreaUsuario = TextField(
@@ -64,18 +69,28 @@ def Style_AppBar(page, auth):
                 ]
             )
     return AppBar(
-        bgcolor=colors.SURFACE_VARIANT,
+        bgcolor=format(Background),
+        toolbar_height=100,
+        leading_width=150,
+        leading=IconButton(
+            content=Image(
+                src_base64=Logo,
+                fit="cover"
+            )
+            ),
+        elevation=0,
+        center_title=True,
         title=Row(
-            [
+            controls=[
                 TextButton(
-                    text="Inicio", 
+                    content=Text(value="Inicio", color=TextColor, size=16),
                     on_click=lambda _: RouteConfig(
                         page=page, 
                         route="/home"
                         ),
                     ),
                 TextButton(
-                    text="Cardapio", 
+                    content=Text(value="Cardápio", color=TextColor, size=16),
                     on_click=lambda _: RouteConfig(
                         page=page, 
                         route="/cardapio"
@@ -83,14 +98,14 @@ def Style_AppBar(page, auth):
                     ),
                 TextButton
                 (
-                    text="Contato", 
+                    content=Text(value="Contato", color=TextColor, size=16),
                     on_click=lambda _: RouteConfig(
                         page=page, 
                         route="/contato"
                         ),
                     ),
                 TextButton(
-                    text="Sobre",
+                    content=Text(value="Sobre", color=TextColor, size=16),
                     on_click= lambda _:RouteConfig(
                         page=page, 
                         route="/sobre"
@@ -98,5 +113,7 @@ def Style_AppBar(page, auth):
                     ),
                 ]
             ),
-        actions=[login]
+        actions=[
+            login,
+            ]
         )

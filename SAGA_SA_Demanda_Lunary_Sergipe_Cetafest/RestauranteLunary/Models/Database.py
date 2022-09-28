@@ -2,7 +2,7 @@ from typing import List, Optional
 import pyodbc
 Dados_Conexao = (
     "Driver={SQL Server};"
-    "Server=.\LUNARY;"
+    "Server=.\SENAI;"
     "Database=RestauranteLunary;"
 )
 

@@ -1,4 +1,5 @@
 from flet import View
+from Content.Colors import (Background)
 from Content.Appbar import Style_AppBar
 
 def View_Style(route, page, auth, html):
@@ -7,7 +8,7 @@ def View_Style(route, page, auth, html):
         padding=0,
         spacing=40,
         scroll="always",
-        bgcolor=format("#E67716"),
+        bgcolor=format(Background),
         vertical_alignment="center",
         horizontal_alignment="center",
         appbar=Style_AppBar(page, auth),

@@ -3,7 +3,7 @@ from flet import (Row, Image, Text, Container, colors, Column, IconButton,
                   ElevatedButton, Dropdown, dropdown, PopupMenuButton, PopupMenuItem, 
                   Icon, icons, padding, alignment, Alignment, FilePicker, FilePickerResultEvent,
                   FilePickerUploadEvent, FilePickerUploadFile, border_radius, margin,
-                  Stack)
+                  Stack, border)
 from Models.Database import Database as db
 import base64
 import os
@@ -82,26 +82,21 @@ class html:
         def limpardd():
             produtos()
             dd.value = ''
-            head.page.update()
-        def btnTodos(self):
+            dd.update()
+        def btnTodos(e):
             db.SELECT(COLUMN='*', TABLE='Cardapio')
             limpardd()
-        def btnMConsumidos(self):
+        def btnMConsumidos(e):
             db.SELECT_ORDERby(COLUMN='*', TABLE='Cardapio', COLUMNCond='VezesConsumo', ORDER='DESC')
             limpardd()
-        def btnPdoDia(self):
+        def btnPdoDia(e):
             db.SELECT_WHERE(COLUMN='*', TABLE='Cardapio', COLUMNCond='Promocional', Operator='=', Condition=1)
             limpardd()
         def adicionar(Nome, Preco):
             if vazio in carrinho.controls:
                 carrinho.controls.clear()
-            indice = Text(f'{len(carrinho.controls)+1} -') #atualizar com a alteração da quantidade
-            def RemoveProd(Id):
-                return IconButton(icon=icons.REMOVE_CIRCLE_OUTLINE, 
-                                icon_color=colors.RED, 
-                                on_click=lambda _: remover(Id),)
-            def remover(Id):
-                carrinho.controls.pop(0)
+            def remover(e):
+                carrinho.controls.remove(e.control)
                 if carrinho.controls == []:
                     carrinho.controls.append(vazio)
                 head.page.update()
@@ -112,12 +107,11 @@ class html:
                     border_radius= 10,
                     padding=padding.Padding(12,0,5,0),
                     alignment=alignment.center,
+                    on_click=remover,
                     content=Row(
                         controls=[
-                            indice,
                             Text(Nome),
                             Text(f'R${Preco}'),
-                            RemoveProd(len(carrinho.controls))
                         ]
                     )
                 )
@@ -168,7 +162,7 @@ class html:
                         height=475,
                         width=275, 
                         padding=5,
-                        bgcolor=format("#492917"),
+                        bgcolor=format("#ff006a"),
                         border_radius=border_radius.BorderRadius(10, 10, 275*0.5, 275*0.5),
                         content=Stack(
                             controls=[
@@ -200,7 +194,7 @@ class html:
                             ),
                         ),
                     )
-            head.page.update()
+                head.page.update()
         produtos()
         btnTodos = ElevatedButton(
             text='Todos',
@@ -215,8 +209,11 @@ class html:
             on_click=btnPdoDia
         )
         dd = Dropdown(
+            filled=True,
             hint_text='Filtrar Categoria',
             width=200,
+            border="underline",
+            border_radius=10,
             on_change=filtrar,
             options=[
                 dropdown.Option('Aperitivos'),
@@ -226,7 +223,8 @@ class html:
                 dropdown.Option('Bebidas'),
             ],
         )
-        carrinho.controls.append(vazio)
+        if carrinho.controls == []:
+            carrinho.controls.append(vazio)
         return [Column(
             controls=[
                 Container(
