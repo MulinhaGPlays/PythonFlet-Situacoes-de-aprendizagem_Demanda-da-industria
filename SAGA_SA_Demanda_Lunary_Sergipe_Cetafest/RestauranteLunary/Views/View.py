@@ -18,4 +18,4 @@ class View:
     def Registrar(self):
         Registrar.Registrar(self.page, self.auth)
     def Erro404(self):
-        Erro404.Erro404(self.page, self.auth)
+        Erro404.Erro404(self.page)

@@ -4,7 +4,7 @@ from flet import (
     Column, TextButton, Divider, icons
     )
 from Views.RouteConfig import RouteConfig
-from Scripts.Autenticacao import Autenticacao
+from Scripts.Autenticacao import Autenticacao, Deslogar
 
 def Style_AppBar(page, auth):
     AreaUsuario = TextField(
@@ -16,7 +16,10 @@ def Style_AppBar(page, auth):
         width=200
         )
     if auth == 1:
-        login = ElevatedButton(text='Fazer Logout')
+        login = ElevatedButton(
+            text='Fazer Logout',
+            on_click= lambda _: Deslogar(page)
+            )
     else:
         login = PopupMenuButton(
             icon=icons.SUPERVISED_USER_CIRCLE,

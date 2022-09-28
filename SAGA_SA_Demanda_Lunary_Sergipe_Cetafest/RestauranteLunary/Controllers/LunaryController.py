@@ -34,7 +34,7 @@ def main(page: Page):
             case "/registrar":
                 View(page, auth).Registrar()
             case _:
-                View(page, auth).Erro404()
+                View(page, 0).Erro404()
         page.update()
 
     page.on_route_change = route
