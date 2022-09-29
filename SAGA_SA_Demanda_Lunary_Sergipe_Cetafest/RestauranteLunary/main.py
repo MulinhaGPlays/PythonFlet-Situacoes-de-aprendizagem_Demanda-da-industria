@@ -7,4 +7,6 @@ if __name__ == "__main__":
         upload_dir="cache",
         
         port= 5000,
+        
+        web_renderer="canvaskit"
         )

@@ -6,7 +6,6 @@ def View_Style(route, page, auth, html):
     return View(
         route=route,
         padding=0,
-        spacing=40,
         scroll="always",
         bgcolor=format(Background),
         vertical_alignment="center",

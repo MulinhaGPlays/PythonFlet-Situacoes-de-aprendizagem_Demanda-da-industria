@@ -2,7 +2,7 @@ from flet import (
     AppBar, ElevatedButton, Text, Row, 
     PopupMenuButton, PopupMenuItem, TextField, 
     Column, TextButton, Divider, icons, IconButton,
-    Image)
+    Image, NavigationRailDestination, NavigationRail, Icon, FloatingActionButton, colors)
 import base64
 from Content.Colors import (Background, TextColor)
 from Views.RouteConfig import RouteConfig
@@ -21,13 +21,21 @@ def Style_AppBar(page, auth):
         width=200
         )
     if auth == 1:
-        login = ElevatedButton(
-            text='Fazer Logout',
+        login = IconButton(
+            icon=icons.LOGOUT,
+            icon_size=40,
+            icon_color=TextColor,
             on_click= lambda _: Deslogar(page)
             )
     else:
         login = PopupMenuButton(
-            icon=icons.SUPERVISED_USER_CIRCLE,
+            content=IconButton(
+                icon=icons.SUPERVISED_USER_CIRCLE_ROUNDED,
+                icon_size=40,
+                icon_color=TextColor,
+                disabled=True
+            ),
+            icon=None,
             items=[
                 PopupMenuItem(
                     on_click=lambda _: RouteConfig(page=page, route="/login"),
@@ -68,11 +76,18 @@ def Style_AppBar(page, auth):
                     )
                 ]
             )
-    return AppBar(
+    if page.width < 650.0:
+        bar_phone_or_desktop = AppBar(bgcolor=colors.BLACK)
+    else:
+        bar_phone_or_desktop = AppBar(
         bgcolor=format(Background),
         toolbar_height=100,
         leading_width=150,
         leading=IconButton(
+            on_click=lambda _: RouteConfig(
+                page=page, 
+                route="/home"
+                ),
             content=Image(
                 src_base64=Logo,
                 fit="cover"
@@ -81,6 +96,8 @@ def Style_AppBar(page, auth):
         elevation=0,
         center_title=True,
         title=Row(
+            width=400,
+            spacing=20,
             controls=[
                 TextButton(
                     content=Text(value="Inicio", color=TextColor, size=16),
@@ -114,6 +131,7 @@ def Style_AppBar(page, auth):
                 ]
             ),
         actions=[
-            login,
+            Row(alignment="center", controls=[login]),
             ]
         )
+    return bar_phone_or_desktop

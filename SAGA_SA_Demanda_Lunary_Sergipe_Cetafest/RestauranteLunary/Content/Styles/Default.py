@@ -12,11 +12,12 @@ def TextContainer(head):
                         value="BEM VINDO(A)",
                         size=40,
                         weight="bold",
+                        font_family="Consolas"
                     ),
-                    Text("akjhndbaujdbadhuwbjdawkjdbwadujawdnawujdh"),
-                    Text("akjhndbaujdbadhuwbjdawkjdbwadujawdnawujdh"),
-                    Text("akjhndbaujdbadhuwbjdawkjdbwadujawdnawujdh"),
-                    Text("akjhndbaujdbadhuwbjdawkjdbwadujawdnawujdh"),
+                    Text(
+                        width=250,
+                        value="akjhndbaujdbadhuwbjdawkjdbwadujawdnawujdhhfgtyjfi5tecj5sd4l,erkktdcrltktrefffftkrmfdrtrtrtrtrtrtrtfyjt"
+                        ),
                 ]
             )
         )

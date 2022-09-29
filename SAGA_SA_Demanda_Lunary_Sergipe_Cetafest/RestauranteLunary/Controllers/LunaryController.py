@@ -1,5 +1,3 @@
-from Scripts.PythonDB import PythonDB
-PythonDB('MemoryCard').CreateDataBase()
 from Models.Database import Database as db
 from Views.View import View
 from flet import Page
@@ -9,7 +7,6 @@ db.DELETE(TABLE='SessaoDoDispositivo')
 def main(page: Page):
     
     def route(route):
-        PythonDB('MemoryCard').CreateTable(page.session_id)
         db.SELECT_WHERE(TABLE='SessaoDoDispositivo', 
                         COLUMN='Autenticado', 
                         COLUMNCond='CodSessao', Operator='=', Condition=page.session_id)
@@ -42,3 +39,5 @@ def main(page: Page):
     if db.FETCHALL() == []:
         db.INSERT_INTO(TABLE='SessaoDoDispositivo', COLUMN='CodSessao', VALUES=f"'{page.session_id}'")
     page.go(page.route)
+    page.on_resize = page.update()
+    
