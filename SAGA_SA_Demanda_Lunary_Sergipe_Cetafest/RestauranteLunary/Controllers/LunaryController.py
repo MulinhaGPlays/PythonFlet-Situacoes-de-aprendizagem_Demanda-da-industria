@@ -7,6 +7,7 @@ db.DELETE(TABLE='SessaoDoDispositivo')
 def main(page: Page):
     
     def route(route):
+        mobile = True if page.width <= 668.0 else False
         db.SELECT_WHERE(TABLE='SessaoDoDispositivo', 
                         COLUMN='Autenticado', 
                         COLUMNCond='CodSessao', Operator='=', Condition=page.session_id)
@@ -17,21 +18,21 @@ def main(page: Page):
         page.views.clear()
         match page.route:
             case "/":
-                View(page, auth).Default()
+                View(page, auth, mobile).Default()
             case "/home":
-                View(page, auth).Home()
+                View(page, auth, mobile).Home()
             case "/cardapio":
-                View(page, auth).Cardapio()
+                View(page, auth, mobile).Cardapio()
             case "/contato":
-                View(page, auth).Contato()
+                View(page, auth, mobile).Contato()
             case "/sobre":
-                View(page, auth).Sobre()
+                View(page, auth, mobile).Sobre()
             case "/login":
-                View(page, auth).Login()
+                View(page, auth, mobile).Login()
             case "/registrar":
-                View(page, auth).Registrar()
+                View(page, auth, mobile).Registrar()
             case _:
-                View(page, 0).Erro404()
+                View(page, 0, mobile).Erro404()
         page.update()
 
     page.on_route_change = route
@@ -39,5 +40,5 @@ def main(page: Page):
     if db.FETCHALL() == []:
         db.INSERT_INTO(TABLE='SessaoDoDispositivo', COLUMN='CodSessao', VALUES=f"'{page.session_id}'")
     page.go(page.route)
-    page.on_resize = page.update()
+    page.on_resize = route
     

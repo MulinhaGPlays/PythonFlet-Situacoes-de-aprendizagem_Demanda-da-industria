@@ -9,9 +9,9 @@ import base64
 import os
 from Content.View import View_Style
 
-def Cardapio(page, auth):          
+def Cardapio(page, auth, mobile):          
     page.title = "Cardapio"
-    page.views.append(View_Style("/cardapio", page, auth, html(page, auth).body()))
+    page.views.append(View_Style("/cardapio", page, auth, html(page, auth).body(), mobile))
     
     
 from Content.Styles.Cardapio import AddImg, produto, vazio, carrinho, icone
