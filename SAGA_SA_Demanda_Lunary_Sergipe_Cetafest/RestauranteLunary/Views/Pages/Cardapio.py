@@ -24,15 +24,13 @@ class html:
         NomeE = PopupMenuItem(content=TextField(hint_text="Nome", filled=True))
         DescricaoE = PopupMenuItem(content=TextField(hint_text="Descrição", filled=True))
         PrecoE = PopupMenuItem(content=TextField(hint_text="Preço", filled=True))
-        PromocionalE = PopupMenuItem(content=TextField(hint_text="1 para promoção se não 0", filled=True))
         def edt(Id):
             db.UPDATE(TABLE='Cardapio', COLUMN='Nome', VALUES=NomeE.content.value, COLUMNCond='Id', Operator='=', Condition=Id) if NomeE.content.value != '' else None
             db.UPDATE(TABLE='Cardapio', COLUMN='Descricao', VALUES=DescricaoE.content.value, COLUMNCond='Id', Operator='=', Condition=Id) if DescricaoE.content.value != '' else None
             db.UPDATE(TABLE='Cardapio', COLUMN='Preco', VALUES=PrecoE.content.value, COLUMNCond='Id', Operator='=', Condition=Id) if PrecoE.content.value != '' else None
-            db.UPDATE(TABLE='Cardapio', COLUMN='Promocional', VALUES=PromocionalE.content.value, COLUMNCond='Id', Operator='=', Condition=Id) if PromocionalE.content.value != '' else None
             db.SELECT(COLUMN='*', TABLE='Cardapio')
             produtos()
-        def editar(Id): return PopupMenuButton(icon=icons.EDIT, items=[NomeE,DescricaoE,PrecoE,PromocionalE, PopupMenuItem(text="           Alterar          ", on_click=lambda _: edt(Id))]) if head.auth == 1 else IconButton(disabled=True, visible=False)
+        def editar(Id): return PopupMenuButton(icon=icons.EDIT, items=[NomeE,DescricaoE,PrecoE, PopupMenuItem(text="           Alterar          ", on_click=lambda _: edt(Id))]) if head.auth == 1 else IconButton(disabled=True, visible=False)
         def delete(Id):
             db.DELETE_WHERE(TABLE='Cardapio', COLUMN='Id', Operator='=', Condition=Id)
             db.SELECT(COLUMN='*', TABLE='Cardapio')
