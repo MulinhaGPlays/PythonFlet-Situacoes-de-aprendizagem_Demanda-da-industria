@@ -7,23 +7,32 @@ def Default(page, auth, mobile):
     if auth == 1:
         return RouteConfig(page=page, route='/home')
     page.title = "Restaurante Lunary"
-    page.views.append(View_Style("/", page, auth, html(page, auth).body(), mobile))
+    page.views.append(View_Style("/", page, auth, html(page, auth, mobile).body(), mobile))
     
 class html:
-    def __init__(head, page, auth):
+    def __init__(head, page, auth, mobile):
         head.page = page
         head.auth = auth
+        head.mobile = mobile
     def body(head):
+        dados = [
+            TextContainer(head),
+            Cardapio(head),
+            ]
+        if head.mobile:
+            site = Column(
+                horizontal_alignment="center",
+                controls=dados
+                    )
+        else: 
+            site = Row(
+                alignment="center",
+                controls=dados
+            )
         return [
             Column(
                 controls=[
-                    Row(
-                        alignment="center",
-                        controls=[
-                            TextContainer(head),
-                            Cardapio(head),
-                        ]
-                    )
+                    site
                 ]
             )
             ]

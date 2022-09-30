@@ -2,7 +2,7 @@ from typing import List, Optional
 import pyodbc
 Dados_Conexao = (
     "Driver={SQL Server};"
-    "Server=.\SENAI;"
+    "Server=.\LUNARY;"
     "Database=RestauranteLunary;"
 )
 
@@ -61,6 +61,11 @@ class Database:
                Condition = 'NULL'):
         return RL.execute(f"UPDATE {TABLE} SET {COLUMN} = {VALUES} WHERE {COLUMNCond} {Operator} '{Condition}'")
     
+    def DELETE_WHERE(TABLE: Optional[List] | str = None, 
+                     COLUMN: Optional[List] | str = '*',
+                     Operator: str = '=',
+                     Condition = 'NULL'):
+        return RL.execute(f"DELETE FROM {TABLE} WHERE {COLUMN} {Operator} '{Condition}'")
     
     def FETCHALL():return RL.fetchall()
     

@@ -6,10 +6,10 @@ from Models.Database import Database as db
 import base64
 
 class build(UserControl):
-    def build(self):
-        return self.RegistroArea(self.page)
+    def build(self, mobile):
+        return self.RegistroArea(self.page, mobile)
     
-    def RegistroArea(self, page):
+    def RegistroArea(self, page, mobile):
         with open(f"Logo.png", "rb") as noB64:         
             Logo = base64.b64encode(noB64.read()).decode()
         AreaUsuario = TextField(hint_text="Usuário",
@@ -17,7 +17,7 @@ class build(UserControl):
         AreaSenha = TextField(hint_text="Senha",
                               width=200)
         AreaRestaurante = Dropdown(
-            width=500
+            content_padding=10
         )
         AreaCodFunc = TextField(
             hint_text='Código de Funcionario',
@@ -37,10 +37,11 @@ class build(UserControl):
                 CodFuncionario=AreaCodFunc.value,
                 page=page
                 )
-        return Container(padding=10,
+        return Container(padding=None if mobile == False else 10,
                          alignment=alignment.center,
                          bgcolor=colors.BLUE,
                          border_radius=10,
+                         width=400,
                          content=Column(horizontal_alignment="center",
                                         controls=[Image(src_base64=Logo,
                                                         width=100,

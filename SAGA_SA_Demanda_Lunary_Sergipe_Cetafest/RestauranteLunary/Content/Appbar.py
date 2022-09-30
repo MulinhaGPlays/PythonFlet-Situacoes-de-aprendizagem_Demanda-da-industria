@@ -6,6 +6,7 @@ from flet import (
     Image, NavigationRailDestination, NavigationRail, Icon, FloatingActionButton, 
     colors, Container)
 import base64
+from Scripts.QrCode import QrCodeGen
 from Content.Colors import (Background, TextColor)
 from Views.RouteConfig import RouteConfig
 from Scripts.Autenticacao import Autenticacao, Deslogar
@@ -14,6 +15,7 @@ with open(f"Logo.png", "rb") as noB64:
     Logo = base64.b64encode(noB64.read()).decode()
 
 def Style_AppBar(page, auth, mobile):
+    qrcode = ElevatedButton(visible=False)
     largura = page.width*0.6
     autenticado1 = PopupMenuItem(
             
@@ -41,6 +43,7 @@ def Style_AppBar(page, auth, mobile):
                         route="/registrar"
                         )
                     )
+    autenticado3 =  PopupMenuItem(content=None)
     AreaUsuario = TextField(
         hint_text="Usuário",
         width=200
@@ -50,6 +53,8 @@ def Style_AppBar(page, auth, mobile):
         width=200
         )
     if auth == 1:
+        qrcode = ElevatedButton(text="Gerar QrCode da página",
+                                on_click=lambda _: QrCodeGen(page, page.route[1:]))
         login = IconButton(
             icon=icons.LOGOUT,
             icon_size=40,
@@ -119,6 +124,16 @@ def Style_AppBar(page, auth, mobile):
                     route="/registrar"
                     )
                 )
+            autenticado3 = PopupMenuItem(
+                
+                    content=Text(
+                        width=largura,
+                        value="GerarQrCode da página", 
+                        color=TextColor, 
+                        size=16
+                        ),
+                    on_click=lambda _: QrCodeGen(page, page.route[1:])
+                    )
         bar_phone_or_desktop = AppBar(
             bgcolor=format(Background),
             toolbar_height=100,
@@ -178,6 +193,8 @@ def Style_AppBar(page, auth, mobile):
                                 route="/sobre"
                                 ),
                             ),
+                        autenticado3,
+                        PopupMenuItem()
                         ]
                     ),
                 ]
@@ -235,7 +252,7 @@ def Style_AppBar(page, auth, mobile):
                     ]
                 ),
             actions=[
-                Row(alignment="center", controls=[login]),
+                Row(alignment="center", controls=[login, qrcode]),
                 ]
             )
     return bar_phone_or_desktop

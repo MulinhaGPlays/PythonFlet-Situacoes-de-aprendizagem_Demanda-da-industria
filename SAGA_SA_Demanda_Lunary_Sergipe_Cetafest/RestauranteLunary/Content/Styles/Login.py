@@ -3,10 +3,10 @@ from Scripts.Autenticacao import Autenticacao
 import base64
 
 class build(UserControl):
-    def build(self, page):
-        return self.LoginArea(page)
+    def build(self, page, mobile):
+        return self.LoginArea(page, mobile)
     
-    def LoginArea(self, page):
+    def LoginArea(self, page, mobile):
         with open(f"Logo.png", "rb") as noB64:         
             Logo = base64.b64encode(noB64.read()).decode()
         AreaUsuario = TextField(hint_text="Usuário",
@@ -17,7 +17,7 @@ class build(UserControl):
             Autenticacao(Usuario=AreaUsuario.value, 
                          Senha=AreaSenha.value,
                          page=page)
-        return Container(padding=10,
+        return Container(padding=None if mobile == False else 10,
                          alignment=alignment.center,
                          bgcolor=colors.BLUE,
                          border_radius=10,

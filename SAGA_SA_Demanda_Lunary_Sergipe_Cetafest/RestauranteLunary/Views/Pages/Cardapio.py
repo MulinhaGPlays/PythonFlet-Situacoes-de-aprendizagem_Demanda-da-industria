@@ -3,7 +3,7 @@ from flet import (Row, Image, Text, Container, colors, Column, IconButton,
                   ElevatedButton, Dropdown, dropdown, PopupMenuButton, PopupMenuItem, 
                   Icon, icons, padding, alignment, Alignment, FilePicker, FilePickerResultEvent,
                   FilePickerUploadEvent, FilePickerUploadFile, border_radius, margin,
-                  Stack, border)
+                  Stack, border, TextField)
 from Models.Database import Database as db
 import base64
 import os
@@ -11,18 +11,67 @@ from Content.View import View_Style
 
 def Cardapio(page, auth, mobile):          
     page.title = "Cardapio"
-    page.views.append(View_Style("/cardapio", page, auth, html(page, auth).body(), mobile))
+    page.views.append(View_Style("/cardapio", page, auth, html(page, auth, mobile).body(), mobile))
     
     
 from Content.Styles.Cardapio import AddImg, produto, vazio, carrinho, icone
 class html:
-    def __init__(head, page, auth):
+    def __init__(head, page, auth, mobile):
         head.page = page
         head.auth = auth
+        head.mobile = mobile
     def body(head):
-        disableBimg = True
-        if head.auth == 1:
-            disableBimg = False
+        alt=20
+        larg=60
+        NomeE = PopupMenuItem(content=TextField(hint_text="Nome", width=larg, height=alt))
+        DescricaoE = PopupMenuItem(content=TextField(hint_text="Descrição", width=larg, height=alt))
+        PrecoE = PopupMenuItem(content=TextField(hint_text="Preço", width=larg, height=alt))
+        PromocionalE = PopupMenuItem(content=TextField(hint_text="1 para promoção se não 0", width=larg, height=alt))
+        def edt(Id):
+            db.UPDATE(TABLE='Cardapio',
+                      COLUMN=['Nome', 'Descricao', 'Preco', 'Promocional'],
+                      VALUES=[NomeE.content.value, DescricaoE.content.value, PrecoE.content.value, PromocionalE.content.value,],
+                      COLUMNCond='Id', Operator='=', Condition=Id)    
+        def editar(Id): 
+            return PopupMenuButton(icon=icons.EDIT, items=[NomeE,DescricaoE,PrecoE,PromocionalE, PopupMenuItem(text="Alterar", on_click=lambda _: edt(Id))]) if head.auth == 1 else IconButton(disabled=True, visible=False)
+        def delete(Id):
+            db.DELETE_WHERE(TABLE='Cardapio', COLUMN='Id', Operator='=', Condition=Id)
+            db.SELECT(COLUMN='*', TABLE='Cardapio')
+            produtos()
+        def deletar(Id): 
+            return IconButton(icon=icons.DELETE, on_click=lambda _:delete(Id)) if head.auth == 1 else IconButton(disabled=True, visible=False)
+        def adicionaritem():
+            db.INSERT_INTO(TABLE='Cardapio',
+                           COLUMN=['Nome', 
+                                   'Descricao', 
+                                   'Preco',
+                                   'Categoria'],
+                           VALUES=[f"'{addnew.controls[0].value}'", 
+                                   f"'{addnew.controls[1].value}'", 
+                                   f"'{addnew.controls[2].value}'",
+                                   f"'{addnew.controls[3].value}'",]
+                           )
+            db.SELECT(COLUMN='*', TABLE='Cardapio')
+            time.sleep(1)
+            produtos()
+        addnew = Column(
+            controls=[
+                TextField(hint_text="Nome"),
+                TextField(hint_text="Descrição"),
+                TextField(hint_text="Preço"),
+                Dropdown(
+                    options=[
+                        dropdown.Option('Aperitivo'),
+                        dropdown.Option('Entrada'),
+                        dropdown.Option('Prato Principal'),
+                        dropdown.Option('Sobremesa'),
+                        dropdown.Option('Bebida'),
+                    ]
+                ),
+                ElevatedButton(text="Adicionar", on_click=lambda _:adicionaritem())
+            ]
+        ) if head.auth == 1 else Column(disabled=True)
+        disableBimg = True if head.auth == 0 else False
         def file_picker_result(e: FilePickerResultEvent):
             PATH = f"cache"
             if e.files != None:
@@ -185,6 +234,8 @@ class html:
                                                     value=f'R${row.Preco}'
                                                     ),
                                                 addcart(row.Nome, row.Preco),
+                                                deletar(row.Id),
+                                                editar(row.Id)
                                                 ]
                                             ),
                                         ]
@@ -231,7 +282,8 @@ class html:
                     margin=margin.Margin(10,10,0,0),
                     content=Row(
                         controls=[
-                            dd, 
+                            addnew,
+                            dd,
                             btnTodos,
                             btnMConsumidos,
                             btnPdoDia,
