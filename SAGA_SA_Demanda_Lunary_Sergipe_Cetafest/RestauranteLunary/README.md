@@ -18,5 +18,7 @@ Basicamente forma utilizadas três principais bibliotecas do python, "flet", "qr
 
 <img src="https://user-images.githubusercontent.com/83516034/193318851-cf62ab67-c166-41b9-9fa4-6aa5df39db88.PNG" min-width="400px" max-width="20px" width="650px" align="center" alt="Imagem SQL pyODBC">
 
-<h4>O banco de dados foi gerado baseado nessa DER</h4>
+<h3>O banco de dados foi gerado baseado nessa DER:</h3>
 <img src="https://user-images.githubusercontent.com/83516034/193366754-03b20de1-2653-4e07-97fb-0c0fae0cac02.png" min-width="400px" max-width="20px" width="650px" align="center" alt="Imagem SQL pyODBC">
+<h3>Orientação ao objeto:</h3>
+Durante toda a codagem desse projeto foi utilizado, orientação de objeto, usando classes, funções variáveis, sem contar as próprias funções das bibliotecas, também foi utilizado tipagens de dados para específicar as entradas em cada função, e a separação de arquivos para cada classe de funções, as de estilização(front-end), back-end e administração de rotas em um controlador.
