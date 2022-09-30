@@ -1,21 +1,27 @@
 from typing import List, Optional
-import pyodbc
+import pyodbc #importar biblioteca
 Dados_Conexao = (
     "Driver={SQL Server};"
     "Server=.\SENAI;"
     "Database=RestauranteLunary;"
 )
 
-conexao = pyodbc.connect(Dados_Conexao, autocommit=True)
+conexao = pyodbc.connect(Dados_Conexao, autocommit=True) 
 print("Banco De Dados Conectado Com Sucesso!")
 
-RestauranteLunary = conexao.cursor()
+RestauranteLunary = conexao.cursor() #conectar ao banco de dados
 
 class Database:
     global RL
     RL = RestauranteLunary
     def SELECT(COLUMN: Optional[List] | str = '*',
                TABLE: Optional[List] | str = None):
+        """_summary_
+            Executa o comando SELECT do SQL Server
+        Args:
+            COLUMN (Optional[List] | str, optional): _description_. o padrão é '*'.
+            TABLE (Optional[List] | str, optional): _description_. o padrão é None.
+        """
         COLUMN = ', '.join(COLUMN) if type(COLUMN) is list else COLUMN
         TABLE = ', '.join(TABLE) if type(TABLE) is list else TABLE
         try:
