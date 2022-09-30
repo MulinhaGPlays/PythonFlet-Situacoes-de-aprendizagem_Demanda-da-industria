@@ -1,4 +1,6 @@
-﻿https://situacoes-de-aprendizagemdemanda-da-industria.filaupe.repl.co/#/
+<img src="https://user-images.githubusercontent.com/83516034/193357081-74e83abf-c71c-4b10-8c1d-d45fe96b4d35.png" align="center" alt="Site">
+
+https://situacoes-de-aprendizagemdemanda-da-industria.filaupe.repl.co/#/
  
 ### **SITUAÇÃO DE APRENDIZAGEM | DEMANDA DA INDÚSTRIA**
 
