@@ -1,10 +1,11 @@
+import os
 from turtle import width
 from flet import (
     AppBar, ElevatedButton, Text, Row, 
     PopupMenuButton, PopupMenuItem, TextField, 
     Column, TextButton, Divider, icons, IconButton,
     Image, NavigationRailDestination, NavigationRail, Icon, FloatingActionButton, 
-    colors, Container)
+    colors, Container, AlertDialog)
 import base64
 from Scripts.QrCode import QrCodeGen
 from Content.Colors import (Background, TextColor)
@@ -15,6 +16,13 @@ with open(f"Logo.png", "rb") as noB64:
     Logo = base64.b64encode(noB64.read()).decode()
 
 def Style_AppBar(page, auth, mobile):
+    def qrcodeview(src):
+        with open(f'{src}', 'rb') as img:
+            img = base64.b64encode(img.read()).decode()
+        dlg = AlertDialog(content=Image(src_base64=img), on_dismiss=lambda _: os.remove(src))
+        page.dialog = dlg
+        dlg.open = True
+        page.update()
     qrcode = ElevatedButton(visible=False)
     largura = page.width*0.6
     autenticado1 = PopupMenuItem(
@@ -54,7 +62,7 @@ def Style_AppBar(page, auth, mobile):
         )
     if auth == 1:
         qrcode = ElevatedButton(text="Gerar QrCode da página",
-                                on_click=lambda _: QrCodeGen(page, page.route[1:]))
+                                on_click=lambda _: qrcodeview(QrCodeGen(page, page.route[1:])))
         login = IconButton(
             icon=icons.LOGOUT,
             icon_size=40,
@@ -132,7 +140,7 @@ def Style_AppBar(page, auth, mobile):
                         color=TextColor, 
                         size=16
                         ),
-                    on_click=lambda _: QrCodeGen(page, page.route[1:])
+                    on_click=lambda _: qrcodeview(QrCodeGen(page, page.route[1:]))
                     )
         bar_phone_or_desktop = AppBar(
             bgcolor=format(Background),

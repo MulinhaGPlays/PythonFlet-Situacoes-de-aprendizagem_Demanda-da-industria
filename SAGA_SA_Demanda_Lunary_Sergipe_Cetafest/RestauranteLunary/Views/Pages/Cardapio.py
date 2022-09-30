@@ -28,12 +28,13 @@ class html:
         PrecoE = PopupMenuItem(content=TextField(hint_text="Preço", width=larg, height=alt))
         PromocionalE = PopupMenuItem(content=TextField(hint_text="1 para promoção se não 0", width=larg, height=alt))
         def edt(Id):
-            db.UPDATE(TABLE='Cardapio',
-                      COLUMN=['Nome', 'Descricao', 'Preco', 'Promocional'],
-                      VALUES=[NomeE.content.value, DescricaoE.content.value, PrecoE.content.value, PromocionalE.content.value,],
-                      COLUMNCond='Id', Operator='=', Condition=Id)    
-        def editar(Id): 
-            return PopupMenuButton(icon=icons.EDIT, items=[NomeE,DescricaoE,PrecoE,PromocionalE, PopupMenuItem(text="Alterar", on_click=lambda _: edt(Id))]) if head.auth == 1 else IconButton(disabled=True, visible=False)
+            db.UPDATE(TABLE='Cardapio', COLUMN='Nome', VALUES=NomeE.content.value, COLUMNCond='Id', Operator='=', Condition=Id) if NomeE.content.value != '' else None
+            db.UPDATE(TABLE='Cardapio', COLUMN='Descricao', VALUES=DescricaoE.content.value, COLUMNCond='Id', Operator='=', Condition=Id) if DescricaoE.content.value != '' else None
+            db.UPDATE(TABLE='Cardapio', COLUMN='Preco', VALUES=PrecoE.content.value, COLUMNCond='Id', Operator='=', Condition=Id) if PrecoE.content.value != '' else None
+            db.UPDATE(TABLE='Cardapio', COLUMN='Promocional', VALUES=PromocionalE.content.value, COLUMNCond='Id', Operator='=', Condition=Id) if PromocionalE.content.value != '' else None
+            db.SELECT(COLUMN='*', TABLE='Cardapio')
+            produtos()
+        def editar(Id): return PopupMenuButton(icon=icons.EDIT, items=[NomeE,DescricaoE,PrecoE,PromocionalE, PopupMenuItem(text="Alterar", on_click=lambda _: edt(Id))]) if head.auth == 1 else IconButton(disabled=True, visible=False)
         def delete(Id):
             db.DELETE_WHERE(TABLE='Cardapio', COLUMN='Id', Operator='=', Condition=Id)
             db.SELECT(COLUMN='*', TABLE='Cardapio')
@@ -52,7 +53,7 @@ class html:
                                    f"'{addnew.controls[3].value}'",]
                            )
             db.SELECT(COLUMN='*', TABLE='Cardapio')
-            time.sleep(1)
+            time.sleep(0.5)
             produtos()
         addnew = Column(
             controls=[
@@ -211,7 +212,7 @@ class html:
                         height=475,
                         width=275, 
                         padding=5,
-                        bgcolor=format("#ff006a"),
+                        bgcolor=format("#e6b140"),
                         border_radius=border_radius.BorderRadius(10, 10, 275*0.5, 275*0.5),
                         content=Stack(
                             controls=[

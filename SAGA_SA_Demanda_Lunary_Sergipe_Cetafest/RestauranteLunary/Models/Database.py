@@ -65,7 +65,7 @@ class Database:
                COLUMNCond: Optional[List] | str = '*',
                Operator: str = '=',
                Condition = 'NULL'):
-        return RL.execute(f"UPDATE {TABLE} SET {COLUMN} = {VALUES} WHERE {COLUMNCond} {Operator} '{Condition}'")
+        return RL.execute(f"UPDATE {TABLE} SET {COLUMN} = '{VALUES}' WHERE {COLUMNCond} {Operator} '{Condition}'")
     
     def DELETE_WHERE(TABLE: Optional[List] | str = None, 
                      COLUMN: Optional[List] | str = '*',
