@@ -2,7 +2,7 @@ from typing import List, Optional
 import pyodbc
 Dados_Conexao = (
     "Driver={SQL Server};"
-    "Server=.\LUNARY;"
+    "Server=.\SENAI;"
     "Database=RestauranteLunary;"
 )
 
@@ -70,5 +70,3 @@ class Database:
     def FETCHALL():return RL.fetchall()
     
     def DELETE(TABLE: Optional[List] | str = None):return RL.execute(f"DELETE {TABLE}")
-    
-    
