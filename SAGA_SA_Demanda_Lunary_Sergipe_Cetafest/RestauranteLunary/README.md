@@ -17,3 +17,6 @@ O Flet não apenas "empacota" widgets Flutter, mas adiciona sua própria "opini�
 Basicamente forma utilizadas três principais bibliotecas do python, "flet", "qrcode" e "pyodbc". Como explicado anteriormente o flet adiciona vários atributos do flutter ao python, enquanto o qrcode, como o próprio nome diz, gera códigos QR, e o pyodbc permite uma conexão ao banco de dados, em vários tipos de servidores, o especificado aqui foi o SQL Server, como na imagem a seguir:
 
 <img src="https://user-images.githubusercontent.com/83516034/193318851-cf62ab67-c166-41b9-9fa4-6aa5df39db88.PNG" min-width="400px" max-width="20px" width="650px" align="center" alt="Imagem SQL pyODBC">
+
+<h4>O banco de dados foi gerado baseado nessa DER</h4>
+<img src="https://user-images.githubusercontent.com/83516034/193366754-03b20de1-2653-4e07-97fb-0c0fae0cac02.png" min-width="400px" max-width="20px" width="650px" align="center" alt="Imagem SQL pyODBC">
